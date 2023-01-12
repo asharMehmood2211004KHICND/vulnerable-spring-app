@@ -1,6 +1,7 @@
 package com.emeritus.org.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.emeritus.org.entity.Student;
 
@@ -14,9 +15,9 @@ public interface StudentService {
 	
 	Student saveStudent(Student student);
 	
-	Student getStudentById(String id);
+	Optional<Student> getStudentById(Long id);
 	
-	Student updateStudent(Student student);
+	Student updateStudent(Optional<Student> stud);
 	
 	void deleteStudentById(Long id);
 }

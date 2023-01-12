@@ -1,7 +1,11 @@
 package com.emeritus.org.controller;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +17,7 @@ import com.emeritus.org.service.StudentService;
 @Controller
 public class StudentController {
 	
+	@Autowired
 	private StudentService studentService;
 
 	public StudentController(StudentService studentService) {
@@ -52,7 +57,7 @@ public class StudentController {
 	}
 	
 	@GetMapping("/students/edit/{id}")
-	public String editStudentForm(@PathVariable String id, Model model) {
+	public String editStudentForm(@PathVariable Long id, Model model) {
 		model.addAttribute("student", studentService.getStudentById(id));
 
 		return "edit_student";
@@ -64,20 +69,21 @@ public class StudentController {
 			Model model) {
 		
 		// get student from database by id
-		Student existingStudent = studentService.getStudentById(id.toString());
-		existingStudent.setId(id);
-		existingStudent.setFirstName(student.getFirstName());
-		existingStudent.setLastName(student.getLastName());
-		existingStudent.setEmail(student.getEmail());
+		// Student existingStudent = studentService.getStudentById();
+		// existingStudent.setId(id);
+		// existingStudent.setFirstName(student.getFirstName());
+		// existingStudent.setLastName(student.getLastName());
+		// existingStudent.setEmail(student.getEmail());
 		
 		// save updated student object
-		studentService.updateStudent(existingStudent);
+		// studentService.updateStudent(existingStudent);
+		studentService.updateStudent(studentService.getStudentById(id));
 		return "redirect:/students";		
 	}
 	
 	// handler method to handle delete student request
 	
-	@GetMapping("/students/{id}")
+	@DeleteMapping("/students/{id}")
 	public String deleteStudent(@PathVariable Long id) {
 		studentService.deleteStudentById(id);
 		return "redirect:/students";
